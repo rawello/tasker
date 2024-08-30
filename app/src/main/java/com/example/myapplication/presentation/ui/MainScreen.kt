@@ -1,4 +1,4 @@
-package com.example.myapplication.presentation
+package com.example.myapplication.presentation.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -15,45 +15,34 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.myapplication.data.Note
-import com.example.myapplication.data.NoteViewModel
-import kotlinx.coroutines.flow.Flow
+import com.example.myapplication.R
+import com.example.myapplication.domain.model.Note
+import com.example.myapplication.presentation.ui.components.AddNote
+import com.example.myapplication.presentation.ui.components.NoteItem
+import com.example.myapplication.presentation.ui.components.TopBar
+import com.example.myapplication.presentation.viewmodel.NoteViewModel
 
 @Composable
-fun AnimatedFabApp(viewModel: NoteViewModel) {
+fun MainScreen(viewModel: NoteViewModel) {
     val isVisible = rememberSaveable { mutableStateOf(true) }
     var showBottomSheet by rememberSaveable { mutableStateOf(false) }
     var selectedNote by rememberSaveable { mutableStateOf<Note?>(null) }
-    val notesState = remember { mutableStateOf(emptyList<Note>()) }
-
-    LaunchedEffect(true) {
-        viewModel.getAllNotes().collect { notes ->
-            notesState.value = notes
-        }
-    }
-
-    val notes = notesState.value
-
-
+    val notes by viewModel.getAllNotes().collectAsState(initial = emptyList())
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -73,7 +62,7 @@ fun AnimatedFabApp(viewModel: NoteViewModel) {
 
     Scaffold(
         topBar = {
-            TopBar("Замет очки")
+            TopBar(stringResource(R.string.top_bar_title))
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
@@ -88,7 +77,7 @@ fun AnimatedFabApp(viewModel: NoteViewModel) {
                         selectedNote = null
                     }
                 ) {
-                    Icon(Icons.Filled.Add, "Btn")
+                    Icon(Icons.Filled.Add, stringResource(R.string.add_button_label))
                 }
             }
         }
@@ -99,7 +88,7 @@ fun AnimatedFabApp(viewModel: NoteViewModel) {
         ) {
             if (notes.isEmpty()) {
                 Text(
-                    text = "Замет очек пока нет",
+                    text = stringResource(R.string.no_notes_message),
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center
                 )
@@ -111,10 +100,20 @@ fun AnimatedFabApp(viewModel: NoteViewModel) {
                     contentPadding = innerPadding
                 ) {
                     items(notes) { note ->
-                        NoteItem(note) { clickedNote ->
-                            showBottomSheet = true
-                            selectedNote = clickedNote
-                        }
+                        NoteItem(
+                            note = note,
+                            onNoteClick = { clickedNote ->
+                                showBottomSheet = true
+                                selectedNote = clickedNote
+                            },
+                            onSwipeLeft = { swipedNote ->
+                                swipedNote.isDone = !swipedNote.isDone
+                                viewModel.updateNote(swipedNote)
+                            },
+                            onSwipeRight = { swipedNote ->
+                                viewModel.deleteNote(swipedNote)
+                            }
+                        )
                     }
                 }
             }
@@ -122,7 +121,7 @@ fun AnimatedFabApp(viewModel: NoteViewModel) {
     }
 
     if (showBottomSheet) {
-        AddModal(
+        AddNote(
             note = selectedNote,
             onDismiss = {
                 showBottomSheet = false

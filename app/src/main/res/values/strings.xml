@@ -1,5 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="add_txt">Добавить</string>
-    <string name="inc_add">Некорректно</string>
+    <string name="app_name">Tasker</string>
+    <string name="title_label">Title</string>
+    <string name="description_label">Description</string>
+    <string name="done_label">Done:</string>
+    <string name="set_reminder_button">Set Reminder</string>
+    <string name="change_reminder_button">Change Reminder</string>
+    <string name="change_date_button">Change Date</string>
+    <string name="change_time_button">Change Time</string>
+    <string name="close_button">Close</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="edit_button">Edit</string>
+    <string name="delete_button">Delete</string>
+    <string name="add_button">Add</string>
+    <string name="invalid_input_message">Invalid input</string>
+    <string name="no_description">No description</string>
+    <string name="select_date_title">Select Date</string>
+    <string name="select_time_title">Select Time</string>
+    <string name="change_reminder_text">Select Action</string>
+    <string name="top_bar_title">Notes</string>
+    <string name="no_notes_message">No notes yet</string>
+    <string name="add_button_label">Add</string>
 </resources>

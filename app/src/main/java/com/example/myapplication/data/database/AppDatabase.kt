@@ -1,11 +1,13 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.myapplication.data.dao.NoteDao
+import com.example.myapplication.data.model.Note
 
-@Database(entities = [Note::class], version = 1)
+@Database(entities = [Note::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 
@@ -15,7 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(context, AppDatabase::class.java, "item_database")
+                Room.databaseBuilder(context, AppDatabase::class.java, "notes_db")
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }

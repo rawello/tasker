@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Tasker</string>
+    <string name="title_label">Название</string>
+    <string name="description_label">Описание</string>
+    <string name="done_label">Выполнено:</string>
+    <string name="set_reminder_button">Установить напоминание</string>
+    <string name="change_reminder_button">Изменить напоминание</string>
+    <string name="change_date_button">Изменить дату</string>
+    <string name="change_time_button">Изменить время</string>
+    <string name="close_button">Закрыть</string>
+    <string name="confirm_button">Подтвердить</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="edit_button">Изменить</string>
+    <string name="delete_button">Удалить</string>
+    <string name="add_button">Добавить</string>
+    <string name="invalid_input_message">Неправильный ввод данных</string>
+    <string name="no_description">Описания нет</string>
+    <string name="select_date_title">Выберите дату</string>
+    <string name="select_time_title">Выберите время</string>
+    <string name="change_reminder_text">Выберите действие</string>
+    <string name="top_bar_title">Заметочки</string>
+    <string name="no_notes_message">Заметочек пока нет</string>
+    <string name="add_button_label">Add</string>
+</resources>

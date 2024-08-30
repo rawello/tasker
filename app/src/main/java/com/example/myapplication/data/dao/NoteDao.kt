@@ -1,17 +1,15 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Entity
 import androidx.room.Insert
-import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Update
+import com.example.myapplication.data.model.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface NoteDao{
+interface NoteDao {
     @Insert
     suspend fun insertNote(note: Note)
 
@@ -21,6 +19,6 @@ interface NoteDao{
     @Delete
     suspend fun deleteNote(note: Note)
 
-    @Query("select * from notes")
+    @Query("SELECT * FROM notes")
     fun getNotes(): Flow<List<Note>>
 }
