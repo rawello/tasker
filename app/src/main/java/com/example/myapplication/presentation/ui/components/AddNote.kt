@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -47,7 +48,7 @@ fun AddNote(
     var showSnackbar by rememberSaveable { mutableStateOf(false) }
     var showAlertDialog by rememberSaveable { mutableStateOf(false) }
     val pattern = Regex("\\s+")
-    
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         content = {
@@ -97,24 +98,32 @@ fun AddNote(
                         title = { Text(stringResource(R.string.change_reminder_button)) },
                         text = { Text(stringResource(R.string.change_reminder_text)) },
                         confirmButton = {
-                            Button(
-                                onClick = {
-                                    showDatePicker = true
-                                    showAlertDialog = false
-                                }
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(stringResource(R.string.change_date_button))
-                            }
-                            Button(
-                                onClick = {
-                                    showTimePicker = true
-                                    showAlertDialog = false
+                                Button(
+                                    onClick = {
+                                        showDatePicker = true
+                                        showAlertDialog = false
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.change_date_button))
                                 }
-                            ) {
-                                Text(stringResource(R.string.change_time_button))
+                                Button(
+                                    onClick = {
+                                        showTimePicker = true
+                                        showAlertDialog = false
+                                    }
+                                ) {
+                                    Text(stringResource(R.string.change_time_button))
+                                }
                             }
+                        },
+                        dismissButton = {
                             Button(
-                                onClick = { showAlertDialog = false }
+                                onClick = { showAlertDialog = false },
+                                modifier = Modifier.padding(top = 8.dp)
                             ) {
                                 Text(stringResource(R.string.close_button))
                             }
@@ -221,6 +230,8 @@ fun AddNote(
                     }
                 }
             }
+            Spacer(modifier = Modifier.padding(bottom = 16.dp))
         }
+
     )
 }
